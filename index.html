@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ionic</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css" />
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <ion-app>
+        <ion-header>
+            <ion-toolbar>
+                <ion-buttons slot="start">
+                    <ion-button>
+                        <ion-icon name="book-outline"></ion-icon>
+                    </ion-button>
+                </ion-buttons>
+                <ion-title>ReadComics</ion-title>
+                <ion-buttons slot="end">
+                    <ion-button>
+                        <ion-icon name="search-outline"></ion-icon>
+                    </ion-button>
+                </ion-buttons>
+            </ion-toolbar>
+        </ion-header>
+        
+        <ion-content>
+            <ion-grid>
+                <ion-row>
+                    
+                        <ion-card class="comic-card">
+                            <ion-img src="https://readcomicsonline.ru/uploads/manga/transformers-2019/cover/cover_250x350.jpg"></ion-img>
+                            <div class="overlay">
+                                <div class="card-title">
+                                    Titulo del comic comic
+                                </div>
+                            </div>
+                        </ion-card>
+
+                        <ion-card class="comic-card">
+                            <ion-img src="https://readcomicsonline.ru/uploads/manga/strange-academy-2020/cover/cover_250x350.jpg"></ion-img>
+                            <div class="overlay">
+                                <div class="card-title">
+                                    Titulo del comic comic
+                                </div>
+                            </div>
+                        </ion-card>
+
+                        <ion-card class="comic-card">
+                            <ion-img src="https://readcomicsonline.ru/uploads/manga/web-of-spiderman-2020/cover/cover_250x350.jpg"></ion-img>
+                            <div class="overlay">
+                                <div class="card-title">
+                                    Titulo del comic comic
+                                </div>
+                            </div>
+                        </ion-card>
+
+                        <ion-card class="comic-card">
+                            <ion-img src="https://readcomicsonline.ru/uploads/manga/oblivion-song-by-kirkman-and-de-felici-2018/cover/cover_250x350.jpg"></ion-img> 
+                            <div class="overlay">
+                                <div class="card-title">
+                                    Titulo del comic comic
+                                </div>
+                            </div>
+                        </ion-card>
+
+                        <ion-card class="comic-card">
+                            <ion-img src="https://readcomicsonline.ru/uploads/manga/heroes-reborn-nightgwen-2021/cover/cover_250x350.jpg"></ion-img>
+                            <div class="overlay">
+                                <div class="card-title">
+                                    Titulo del comic comic
+                                </div>
+                            </div>
+                        </ion-card>
+
+                        <ion-card class="comic-card">
+                            <ion-img src="https://readcomicsonline.ru/uploads/manga/amazing-spiderman-2018/cover/cover_250x350.jpg"></ion-img>
+                            <div class="overlay">
+                                <div class="card-title">
+                                    Titulo del comic comic
+                                </div>
+                            </div>
+                        </ion-card>
+
+                </ion-row>
+
+                <div class="center">
+                    <ion-button color="light">
+                        <ion-icon name="caret-back-outline"></ion-icon>
+                    </ion-icon></ion-button>
+                    <ion-button color="tertiary" href="#">2/258</ion-button>
+                    <ion-button color="light">
+                        <ion-icon name="caret-forward-outline"></ion-icon>
+                    </ion-button>
+                </div>
+            </ion-grid>
+        </ion-content>
+    </ion-app>
+
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.esm.js"></script>
+    <script nomodule src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.js"></script>
+</body>
+
+</html>
