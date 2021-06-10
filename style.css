@@ -20,3 +20,8 @@
     margin: 0 auto;
     text-align: center;
 }
+
+ion-thumbnail {
+    width:130px;
+    height:auto;
+}
