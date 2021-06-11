@@ -15,7 +15,7 @@
         <ion-header>
             <ion-toolbar>
                 <ion-buttons slot="start">
-                    <ion-button>
+                    <ion-button href="/">
                         <ion-icon name="book-outline"></ion-icon>
                     </ion-button>
                 </ion-buttons>
@@ -30,7 +30,7 @@
         
         <ion-content>
             <ion-grid>
-                <ion-row>
+                <ion-row id="comics-list">
                     
                         <ion-card class="comic-card">
                             <ion-img src="https://readcomicsonline.ru/uploads/manga/transformers-2019/cover/cover_250x350.jpg"></ion-img>
@@ -89,18 +89,18 @@
                 </ion-row>
 
                 <div class="center">
-                    <ion-button color="light">
+                    <ion-button id="btn_prev" style="visibility: hidden;" color="light">
                         <ion-icon name="caret-back-outline"></ion-icon>
                     </ion-icon></ion-button>
-                    <ion-button color="tertiary" href="#">2/258</ion-button>
-                    <ion-button color="light">
+                    <ion-button id="page" style="visibility: hidden;" color="tertiary" href="#"></ion-button>
+                    <ion-button id="btn_next" style="visibility: hidden;" color="light">
                         <ion-icon name="caret-forward-outline"></ion-icon>
                     </ion-button>
                 </div>
             </ion-grid>
         </ion-content>
     </ion-app>
-
+    <script src="app.js"></script>
     <script type="module" src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.esm.js"></script>
     <script nomodule src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.js"></script>
 </body>
