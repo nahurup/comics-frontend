@@ -1,31 +1,103 @@
 let current_page = 1;
 let container = document.getElementById("content-container");
+let comic_title;
+let title = document.getElementById("title");
+let header_button = document.getElementById("header-button");
 
 let api_url = "https://nahurup-comics-api.herokuapp.com";
 
-function mostrarIssue(name_url, issue_number) {
-    console.log(name_url, issue_number);
+function mostrarIssuePagination(name_url, issue_number, max_issues) {
+    let btn_next = document.getElementById("btn_issue_next");
+    let btn_prev = document.getElementById("btn_issue_prev");
+    let page_span = document.getElementById("issue_page");
+
+    page_span.innerHTML= issue_number+"/"+max_issues;
+    page_span.style.visibility = "visible";
+
+    if (issue_number == 1) {
+        btn_prev.style.visibility = "hidden";
+        btn_next.style.visibility = "visible";
+        btn_next.onclick = function(event) {
+            mostrarIssue(name_url, issue_number+1, max_issues);
+        }
+    }else if (issue_number > 1 && issue_number < max_issues) {
+        btn_prev.style.visibility = "visible";
+        btn_next.style.visibility = "visible";
+        btn_prev.onclick = function(event) {
+            mostrarIssue(issue_number-1);
+        }
+        btn_next.onclick = function(event) {
+            mostrarIssue(name_url, issue_number+1, max_issues);
+        }
+    }else if (issue_number == max_issues) {
+        btn_prev.style.visibility = "visible";
+        btn_next.style.visibility = "hidden";
+        btn_prev.onclick = function(event) {
+            mostrarIssue(name_url, issue_number-1, max_issues);
+        }
+    }
 }
 
-function fillIssuesList(name_url) {
+function mostrarIssue(name_url, issue_number, max_issues) {
+    fetch(api_url+'/comic/'+name_url+'/'+issue_number)
+    .then((response) => response.json())
+    .then((data) => {
+        container.innerHTML = "";
+        title.innerHTML = comic_title+" | #"+issue_number;
+        header_button.innerHTML = `<ion-icon name="arrow-back-outline"></ion-icon>`;
+        header_button.addEventListener("click", function() {
+            title.innerHTML = "ReadComics";
+
+            mostrarComic(name_url)
+        });
+        for (let i = 0; i < data.length; i++) {
+            container.innerHTML += `
+                <ion-img
+                src="${data[i]}"
+                ></ion-img>
+            `;
+        }
+
+        container.innerHTML += `
+            <div class="center">
+                <ion-button id="btn_issue_prev" style="visibility: hidden;" color="light">
+                    <ion-icon name="caret-back-outline"></ion-icon>
+                </ion-icon></ion-button>
+                <ion-button id="issue_page" style="visibility: hidden;" color="secondary" href="#"></ion-button>
+                <ion-button id="btn_issue_next" style="visibility: hidden;" color="light">
+                    <ion-icon name="caret-forward-outline"></ion-icon>
+                </ion-button>
+            </div>
+        `;
+
+        mostrarIssuePagination(name_url, issue_number, max_issues);
+    });
+}
+
+function fillIssuesList(name_url, max_issues) {
+    let issues_list;
+    issues_list = document.getElementById("issues-list");
+
+
     fetch(api_url+'/comic/issues_list/'+name_url)
     .then((response) => response.json())
     .then((data) => {
-        let issues_list = document.getElementById("issues-list");
-        for (let i = 0; i < data.length; i++) {
+        for (let i = 0; i < data.length; i++) {   
             issues_list.innerHTML += `
-            <ion-item onclick=mostrarIssue("${name_url},${data[i].issue_number}")>
+            <ion-item onclick=mostrarIssue("${name_url}","${data[i].issue_number}","${max_issues}")>
                 <ion-label>${data[i].name}</ion-label>
             </ion-item>
             `;
         }
     });
+
 }
 
 function fillComicInfo(name_url) {
     fetch(api_url+'/comic/info/'+name_url)
     .then((response) => response.json())
     .then((data) => {
+        comic_title = data.title;
         container.innerHTML += `
         <ion-card>
         <ion-card-header>
@@ -58,13 +130,37 @@ function fillComicInfo(name_url) {
         </ion-card-content>
         </ion-card>
         `;
+
+        fillIssuesList(name_url, data.max_issues);
     });
 }
 
 function mostrarComic(name_url) {
     container.innerHTML = "";
+    header_button.innerHTML = `<ion-icon name="arrow-back-outline"></ion-icon>`;
+    //header_button.replaceWith(header_button.cloneNode(true));
+    header_button.addEventListener("click", function() {
+        container.innerHTML = `
+            <ion-grid>
+            <ion-row id="comics-list">
+
+            </ion-row>
+
+            <div class="center">
+                <ion-button id="btn_prev" style="visibility: hidden;" color="light">
+                    <ion-icon name="caret-back-outline"></ion-icon>
+                </ion-icon></ion-button>
+                <ion-button id="page" style="visibility: hidden;" color="tertiary" href="#"></ion-button>
+                <ion-button id="btn_next" style="visibility: hidden;" color="light">
+                    <ion-icon name="caret-forward-outline"></ion-icon>
+                </ion-button>
+            </div>
+            </ion-grid>
+        `;
+
+        changePage(current_page);
+    });
     fillComicInfo(name_url);
-    setTimeout(fillIssuesList(name_url), 1000);
 }
 
 function fillList(data, listing_comics) {
@@ -82,6 +178,29 @@ function fillList(data, listing_comics) {
 }
 
 function changePage(page) {
+    header_button.innerHTML = `<ion-icon name="book-outline"></ion-icon>`;
+    header_button.removeEventListener("click", function() {
+        container.innerHTML = `
+            <ion-grid>
+            <ion-row id="comics-list">
+
+            </ion-row>
+
+            <div class="center">
+                <ion-button id="btn_prev" style="visibility: hidden;" color="light">
+                    <ion-icon name="caret-back-outline"></ion-icon>
+                </ion-icon></ion-button>
+                <ion-button id="page" style="visibility: hidden;" color="tertiary" href="#"></ion-button>
+                <ion-button id="btn_next" style="visibility: hidden;" color="light">
+                    <ion-icon name="caret-forward-outline"></ion-icon>
+                </ion-button>
+            </div>
+            </ion-grid>
+        `;
+
+        changePage(current_page);
+    });
+
     let btn_next = document.getElementById("btn_next");
     let btn_prev = document.getElementById("btn_prev");
     let listing_comics = document.getElementById("comics-list");
@@ -128,9 +247,11 @@ function changePage(page) {
                 changePage(page-1);
             }
         }
-    });
 
-    container.style.visibility = "visible";
+        current_page = page;
+
+        container.style.visibility = "visible";
+    });
 }
 
 function numPages() {
