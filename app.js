@@ -38,6 +38,12 @@ function mostrarIssuePagination(name_url, issue_number, max_issues) {
     }
 }
 
+function botonMostrarComic(name_url) {
+    title.innerHTML = "ReadComics";
+
+    mostrarComic(name_url);
+}
+
 function mostrarIssue(name_url, issue_number, max_issues) {
     fetch(api_url+'/comic/'+name_url+'/'+issue_number)
     .then((response) => response.json())
@@ -45,11 +51,10 @@ function mostrarIssue(name_url, issue_number, max_issues) {
         container.innerHTML = "";
         title.innerHTML = comic_title+" | #"+issue_number;
         header_button.innerHTML = `<ion-icon name="arrow-back-outline"></ion-icon>`;
-        header_button.addEventListener("click", function() {
-            title.innerHTML = "ReadComics";
+        header_button.onclick = function() {
+            botonMostrarComic(name_url);
+        };
 
-            mostrarComic(name_url)
-        });
         for (let i = 0; i < data.length; i++) {
             container.innerHTML += `
                 <ion-img
@@ -135,31 +140,38 @@ function fillComicInfo(name_url) {
     });
 }
 
+function botonVolverPagina(page) {
+    container.innerHTML = `
+    <ion-grid>
+    <ion-row id="comics-list">
+
+    </ion-row>
+
+    <div class="center">
+        <ion-button id="btn_prev" style="visibility: hidden;" color="light">
+            <ion-icon name="caret-back-outline"></ion-icon>
+        </ion-icon></ion-button>
+        <ion-button id="page" style="visibility: hidden;" color="tertiary" href="#"></ion-button>
+        <ion-button id="btn_next" style="visibility: hidden;" color="light">
+            <ion-icon name="caret-forward-outline"></ion-icon>
+        </ion-button>
+    </div>
+    </ion-grid>
+    `;
+
+    header_button.innerHTML = `<ion-icon name="book-outline"></ion-icon>`;
+    header_button.onclick = null;
+
+    changePage(current_page);
+}
+
 function mostrarComic(name_url) {
     container.innerHTML = "";
     header_button.innerHTML = `<ion-icon name="arrow-back-outline"></ion-icon>`;
-    //header_button.replaceWith(header_button.cloneNode(true));
-    header_button.addEventListener("click", function() {
-        container.innerHTML = `
-            <ion-grid>
-            <ion-row id="comics-list">
+    header_button.onclick = function() {
+        botonVolverPagina(current_page);
+    };
 
-            </ion-row>
-
-            <div class="center">
-                <ion-button id="btn_prev" style="visibility: hidden;" color="light">
-                    <ion-icon name="caret-back-outline"></ion-icon>
-                </ion-icon></ion-button>
-                <ion-button id="page" style="visibility: hidden;" color="tertiary" href="#"></ion-button>
-                <ion-button id="btn_next" style="visibility: hidden;" color="light">
-                    <ion-icon name="caret-forward-outline"></ion-icon>
-                </ion-button>
-            </div>
-            </ion-grid>
-        `;
-
-        changePage(current_page);
-    });
     fillComicInfo(name_url);
 }
 
@@ -178,29 +190,6 @@ function fillList(data, listing_comics) {
 }
 
 function changePage(page) {
-    header_button.innerHTML = `<ion-icon name="book-outline"></ion-icon>`;
-    header_button.removeEventListener("click", function() {
-        container.innerHTML = `
-            <ion-grid>
-            <ion-row id="comics-list">
-
-            </ion-row>
-
-            <div class="center">
-                <ion-button id="btn_prev" style="visibility: hidden;" color="light">
-                    <ion-icon name="caret-back-outline"></ion-icon>
-                </ion-icon></ion-button>
-                <ion-button id="page" style="visibility: hidden;" color="tertiary" href="#"></ion-button>
-                <ion-button id="btn_next" style="visibility: hidden;" color="light">
-                    <ion-icon name="caret-forward-outline"></ion-icon>
-                </ion-button>
-            </div>
-            </ion-grid>
-        `;
-
-        changePage(current_page);
-    });
-
     let btn_next = document.getElementById("btn_next");
     let btn_prev = document.getElementById("btn_prev");
     let listing_comics = document.getElementById("comics-list");
