@@ -3,6 +3,8 @@ let container = document.getElementById("content-container");
 let comic_title;
 let title = document.getElementById("title");
 let header_button = document.getElementById("header-button");
+let page_html = document.getElementById("app-container");
+let words_global;
 
 let api_url = "https://nahurup-comics-api.herokuapp.com";
 
@@ -168,10 +170,14 @@ function botonVolverPagina(page) {
 function mostrarComic(name_url) {
     container.innerHTML = "";
     header_button.innerHTML = `<ion-icon name="arrow-back-outline"></ion-icon>`;
-    header_button.onclick = function() {
-        botonVolverPagina(current_page);
-    };
-
+    if (page_html.classList.contains("search-page")) {
+        header_button.href = "search.html";
+    }else {
+        header_button.onclick = function() {
+            botonVolverPagina(current_page);
+        };
+    
+    }
     fillComicInfo(name_url);
 }
 
@@ -210,7 +216,8 @@ function changePage(page) {
         .then(response => response.json())
         .then(data => (fillList(data, listing_comics)))
         .catch(error => console.log(error))
-
+    
+        //onclick to page span opens a modal screen to change pages
         page_span.innerHTML = page + "/" + responseJSON;
         page_span.style.visibility = "visible";
 
@@ -254,7 +261,3 @@ function numPages() {
         }) 
     });
 }
-
-window.onload = function () {
-  changePage(1);
-};
