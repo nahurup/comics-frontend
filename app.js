@@ -6,7 +6,7 @@ let header_button = document.getElementById("header-button");
 let page_html = document.getElementById("app-container");
 let words_global;
 
-let api_url = "https://nahurup-comics-api.herokuapp.com";
+let api_url = "https://comics-api.onrender.com";
 
 function mostrarIssuePagination(name_url, issue_number, max_issues) {
     let btn_next = document.getElementById("btn_issue_next");
